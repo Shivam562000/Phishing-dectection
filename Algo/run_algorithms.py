@@ -8,14 +8,14 @@ def calculate_metrics(y_test,Y_predicted):
 	from sklearn.metrics import classification_report,confusion_matrix
 
 	accuracy = metrics.accuracy_score(y_test,Y_predicted)
-	print "accuracy = "+str(round(accuracy * 100,2))+"%"
+	print( "accuracy = "+str(round(accuracy * 100,2))+"%")
 
 	confusion_mat = confusion_matrix(y_test,Y_predicted)
 
-	print confusion_mat
-	print confusion_mat.shape
+	print( confusion_mat)
+	print( confusion_mat.shape)
 
-	print "TP\tFP\tFN\tTN\tSensitivity\tSpecificity"
+	print( "TP\tFP\tFN\tTN\tSensitivity\tSpecificity")
 	for i in range(confusion_mat.shape[0]):
 		# i means which class to choose to do one-vs-the-rest calculation
 		# rows are actual obs whereas columns are predictions
@@ -23,14 +23,14 @@ def calculate_metrics(y_test,Y_predicted):
 		FP = round(float(confusion_mat[:,i].sum()),2) - TP  # incorrectly labeled as i
 		FN = round(float(confusion_mat[i,:].sum()),2) - TP  # incorrectly labeled as non-i
 		TN = round(float(confusion_mat.sum().sum()),2) - TP - FP - FN
-		print str(TP)+"\t"+str(FP)+"\t"+str(FN)+"\t"+str(TN),
+		print( str(TP)+"\t"+str(FP)+"\t"+str(FN)+"\t"+str(TN)),
 		sensitivity = round(TP / (TP + FN),2)
 		specificity = round(TN / (TN + FP),2)
-		print "\t"+str(sensitivity)+"\t\t"+str(specificity)+"\t\t"
+		print( "\t"+str(sensitivity)+"\t\t"+str(specificity)+"\t\t")
 
 
 	f_score = metrics.f1_score(y_test,Y_predicted)
-	print f_score
+	print( f_score)
 
 def neural_network(dataset,class_labels,test_size):
 
@@ -91,30 +91,30 @@ def main():
 	class_labels = "Target_Labels.csv"
 	test_size = 0.3
 
-	print "\nrunning neural networks..."
+	print( "\nrunning neural networks...")
 	start_time = time.time()
 	y_test,Y_predicted = neural_network(dataset,class_labels,test_size)
 	calculate_metrics(y_test,Y_predicted)
 	end_time = time.time()
-	print "runtime = "+str(end_time - start_time)+" seconds"
+	print( "runtime = "+str(end_time - start_time)+" seconds")
 
-	print "\nrunning random forests..."
+	print( "\nrunning random forests...")
 	start_time = time.time()
 	y_test,Y_predicted = random_forests(dataset,class_labels,test_size)
 	calculate_metrics(y_test,Y_predicted)
 	end_time = time.time()
-	print "runtime = "+str(end_time - start_time)+" seconds"
+	print( "runtime = "+str(end_time - start_time)+" seconds")
 
-	print "\nrunning support vector machines..."
+	print( "\nrunning support vector machines...")
 	start_time = time.time()
 	y_test,Y_predicted = support_vector_machines(dataset,class_labels,test_size)
 	calculate_metrics(y_test,Y_predicted)
 	end_time = time.time()
-	print "runtime = "+str(end_time - start_time)+" seconds"
+	print( "runtime = "+str(end_time - start_time)+" seconds")
 
 
 if __name__ == '__main__':
 	start_time = time.time()
 	main()
 	end_time = time.time()
-	print "runtime = "+str(end_time - start_time)+" seconds"
+	print( "runtime = "+str(end_time - start_time)+" seconds")
